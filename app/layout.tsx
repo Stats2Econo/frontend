@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Stats2Econo",
   description: "Stats2Econo",
+  icons: {
+    icon: "/tab_img.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

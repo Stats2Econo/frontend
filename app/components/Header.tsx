@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -19,12 +20,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-black/10 bg-white/80 backdrop-blur-md dark:border-white/10 dark:bg-black/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-sm font-bold text-white dark:bg-white dark:text-black">
-            S2E
-          </div>
-          <span className="text-lg font-semibold tracking-tight">
-            Stats2Econo
-          </span>
+          <Image
+            src="/image.png"
+            alt="Stats2Econo"
+            width={286}
+            height={32}
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
