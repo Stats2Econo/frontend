@@ -1,11 +1,27 @@
+import Noticeboard from "./components/Noticeboard";
+import HeroSection from "./components/HeroSection";
+import MissionSection from "./components/MissionSection";
+import CourseOverviewSection from "./components/CourseOverviewSection";
+import TestimonialsSection from "./components/TestimonialsSection";
+import GallerySection from "./components/GallerySection";
+import LetsConnectSection from "./components/LetsConnectSection";
+
 export default function Home() {
   return (
-    <div>
-      <section className="h-screen bg-red-300" />
-      <section className="h-screen bg-orange-300" />
-      <section className="h-screen bg-green-300" />
-      <section className="h-screen bg-blue-300" />
-      <section className="h-screen bg-purple-300" />
+    <div className="flex flex-col min-h-screen">
+      {/* <Noticeboard /> */}
+
+      {/* <HeroSection /> */}
+
+      {/* <MissionSection /> */}
+
+      {/* <CourseOverviewSection /> */}
+
+      {/* <TestimonialsSection /> */}
+
+      <GallerySection />
+
+      <LetsConnectSection />
     </div>
   );
 }
