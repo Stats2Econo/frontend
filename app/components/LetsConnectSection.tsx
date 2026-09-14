@@ -1,28 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
+import { sendContactMessage } from "@/app/actions/contact";
 
 export default function LetsConnectSection() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 400);
-  };
+  const [state, formAction, isSubmitting] = useActionState(sendContactMessage, undefined);
+  const [dismissedState, setDismissedState] = useState<typeof state>(undefined);
+  const submitted = Boolean(state?.ok) && state !== dismissedState;
 
   return (
     <section id="connect" className="border-b border-zinc-200 bg-[#fafafa] py-16 md:py-20">
@@ -110,72 +95,76 @@ export default function LetsConnectSection() {
                   We have received your message and will be in touch with you shortly.
                 </p>
                 <button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setFormData({ firstName: "", lastName: "", email: "", subject: "", message: "" });
-                  }}
+                  onClick={() => setDismissedState(state)}
                   className="mt-3 text-xs font-medium text-[#2b5672] hover:underline"
                 >
                   Send another message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form action={formAction} className="space-y-4">
+                {/* Honeypot for spam bots */}
+                <input type="text" name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-zinc-700">First name</label>
+                    <label htmlFor="contact-first-name" className="block text-xs font-medium text-zinc-700">First name</label>
                     <input
+                      id="contact-first-name"
+                      name="firstName"
                       type="text"
                       required
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                       className="mt-1 w-full rounded border border-zinc-300 px-3 py-2 text-xs text-zinc-900 focus:border-[#2b5672] focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-zinc-700">Last name</label>
+                    <label htmlFor="contact-last-name" className="block text-xs font-medium text-zinc-700">Last name</label>
                     <input
+                      id="contact-last-name"
+                      name="lastName"
                       type="text"
                       required
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                       className="mt-1 w-full rounded border border-zinc-300 px-3 py-2 text-xs text-zinc-900 focus:border-[#2b5672] focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-700">Email *</label>
+                  <label htmlFor="contact-email" className="block text-xs font-medium text-zinc-700">Email *</label>
                   <input
+                    id="contact-email"
+                    name="email"
                     type="email"
                     required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="mt-1 w-full rounded border border-zinc-300 px-3 py-2 text-xs text-zinc-900 focus:border-[#2b5672] focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-700">Subject</label>
+                  <label htmlFor="contact-subject" className="block text-xs font-medium text-zinc-700">Subject</label>
                   <input
+                    id="contact-subject"
+                    name="subject"
                     type="text"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="mt-1 w-full rounded border border-zinc-300 px-3 py-2 text-xs text-zinc-900 focus:border-[#2b5672] focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-700">
+                  <label htmlFor="contact-message" className="block text-xs font-medium text-zinc-700">
                     Leave us a message...
                   </label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="mt-1 w-full rounded border border-zinc-300 px-3 py-2 text-xs text-zinc-900 focus:border-[#2b5672] focus:outline-none"
                   />
                 </div>
+
+                {state?.error && (
+                  <p role="alert" className="text-xs text-red-700">{state.error}</p>
+                )}
 
                 <button
                   type="submit"
