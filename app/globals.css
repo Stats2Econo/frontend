@@ -2,18 +2,98 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #33343f;
+  --brand-navy: #2b5672;
+  --brand-navy-dark: #1e4056;
+  --brand-navy-light: #f3f7fa;
+  --brand-red: #d92d20;
 }
 
+/* Palette taken from the Stats2Econo logo and the original website */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: #33343f;
+  --color-brand: #2b5672;
+  --color-brand-dark: #1e4056;
+  --color-brand-50: #f3f7fa;
+  --color-brand-100: #e3edf3;
+  --color-leaf: #62a86a;
+  --color-leaf-50: #eff7f0;
+  --color-berry: #d92d20;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-poppins);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-poppins), var(--font-geist-sans), Arial, sans-serif;
+}
+
+/* Reusable UI primitives */
+@layer components {
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark;
+  }
+  .btn-secondary {
+    @apply border-zinc-300 bg-white text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50;
+  }
+  .btn-danger {
+    @apply border-red-200 bg-white text-red-700 hover:bg-red-50;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .label {
+    @apply block text-xs font-medium text-zinc-700;
+  }
+  .input {
+    @apply mt-1 block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none disabled:bg-zinc-50 disabled:text-zinc-500;
+  }
+  .card {
+    @apply rounded-lg border border-zinc-200 bg-white;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold tracking-widest text-brand uppercase;
+  }
+  .badge {
+    @apply inline-flex items-center rounded px-2 py-0.5 text-[11px] font-semibold;
+  }
+}
+
+/* Subtle, tasteful micro-animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Selection */
+::selection {
+  background-color: #2b5672;
+  color: #ffffff;
 }
