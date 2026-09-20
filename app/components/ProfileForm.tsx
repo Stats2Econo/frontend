@@ -44,7 +44,7 @@ export default function ProfileForm({
         <Field label="Full name" required className="sm:col-span-2">
           <input name="full_name" required defaultValue={profile.full_name ?? ""} className="input" autoComplete="name" />
         </Field>
-        <Field label="Email address" hint="From your Google account">
+        <Field label="Email address" hint="Your sign-in email">
           <input value={profile.email} disabled className="input" />
         </Field>
         <Field label="Phone number" required>
