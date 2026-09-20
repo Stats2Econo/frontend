@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getUser, safeNext } from "@/lib/auth";
+import Link from "next/link";
 import GoogleSignInButton from "./GoogleSignInButton";
+import LoginForm from "./LoginForm";
 
 export const metadata: Metadata = { title: "Login" };
 
@@ -29,8 +31,23 @@ export default async function LoginPage(props: PageProps<"/login">) {
         )}
 
         <div className="mt-8">
-          <GoogleSignInButton next={next} />
+          <LoginForm next={next} />
         </div>
+
+        <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wide text-zinc-400">
+          <span className="h-px flex-1 bg-zinc-200" />
+          or
+          <span className="h-px flex-1 bg-zinc-200" />
+        </div>
+
+        <GoogleSignInButton next={next} />
+
+        <p className="mt-6 text-sm text-zinc-600">
+          New here?{" "}
+          <Link href={`/register?next=${encodeURIComponent(next)}`} className="font-medium text-brand hover:underline">
+            Create an account
+          </Link>
+        </p>
 
         <p className="mt-8 text-xs leading-relaxed text-zinc-500">
           By continuing you agree to our{" "}
