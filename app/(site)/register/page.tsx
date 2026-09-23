@@ -4,7 +4,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, safeNext } from "@/lib/auth";
 import GoogleSignInButton from "../login/GoogleSignInButton";
-import RegisterForm from "./RegisterForm";
 
 export const metadata: Metadata = { title: "Register" };
 
@@ -24,16 +23,8 @@ export default async function RegisterPage(props: PageProps<"/register">) {
         </p>
 
         <div className="mt-8">
-          <RegisterForm next={next} />
+          <GoogleSignInButton next={next} />
         </div>
-
-        <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wide text-zinc-400">
-          <span className="h-px flex-1 bg-zinc-200" />
-          or
-          <span className="h-px flex-1 bg-zinc-200" />
-        </div>
-
-        <GoogleSignInButton next={next} />
 
         <p className="mt-6 text-sm text-zinc-600">
           Already have an account?{" "}
