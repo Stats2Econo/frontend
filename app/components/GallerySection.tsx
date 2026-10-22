@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, MapPin, Expand } from "lucide-react";
 
 interface GalleryItem {
   id: string;
+  tag: string;
   title: string;
   description: string;
   src: string;
@@ -17,20 +18,23 @@ export default function GallerySection() {
   const galleryItems: GalleryItem[] = [
     {
       id: "akal",
-      title: "Akal University, Talwandi Sabo, Bathinda, Punjab",
+      tag: "Bathinda, Punjab",
+      title: "Akal University Offline NSSO Workshop",
       description:
         "First offline NSSO UNIT LEVEL DATA WORKSHOP, where Dr. Navneet Kaur from World Bank joined to teach the fundamentals of NSSO data.",
       src: "/gallery/akal-university.jpg",
     },
     {
       id: "vishwakarma",
-      title: "Vishwakarma University, Pune",
+      tag: "Pune, Maharashtra",
+      title: "Vishwakarma University Training Series",
       description:
         "Special training series with Prof. Surajit Das, Centre for Economic Studies and Planning, School of Social Sciences.",
       src: "/gallery/vishwakarma-university.jpg",
     },
     {
       id: "workshop-session",
+      tag: "Live STATA Lab",
       title: "Hands-on STATA Computer Lab",
       description:
         "Scholars practicing live econometric data parsing, .do file writing, and diagnostic testing.",
@@ -38,6 +42,7 @@ export default function GallerySection() {
     },
     {
       id: "cohort-group",
+      tag: "Cohort Valedictory",
       title: "Batch Valedictory & Cohort Meet",
       description:
         "Participants and faculty celebrating the completion of our intensive Econometrics and Data Extraction program.",
@@ -45,6 +50,7 @@ export default function GallerySection() {
     },
     {
       id: "lecture-hall",
+      tag: "Campus Seminar",
       title: "National Econometrics Seminar Lecture",
       description:
         "Interactive lecture on multiple regression, Gauss-Markov assumptions, and model specification.",
@@ -52,6 +58,7 @@ export default function GallerySection() {
     },
     {
       id: "stata-lab",
+      tag: "Doctoral Guidance",
       title: "Interactive Methodology Forum",
       description:
         "One-on-one thesis guidance and empirical research consultation for doctoral scholars.",
@@ -60,44 +67,62 @@ export default function GallerySection() {
   ];
 
   return (
-    <section id="gallery" className="border-b border-zinc-200 bg-white py-16 md:py-20">
+    <section id="gallery" className="border-b border-zinc-200 bg-[#f7f9f7] py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         {/* Header */}
-        <div className="text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-[#2b5672]">
-            Gallery &amp; Events
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-widest text-[#2d4a35]">
+              Gallery &amp; Field Engagements
+            </div>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#1a2b20] sm:text-4xl">
+              Workshops &amp; Academic Seminars
+            </h2>
           </div>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight text-[#33343f] sm:text-3xl">
-            Workshops &amp; Academic Engagements
-          </h2>
-          <p className="mx-auto mt-2 max-w-2xl text-sm text-zinc-600">
-            Snapshots from our offline university workshops, campus seminars, and live computer lab sessions.
+          <p className="max-w-md text-sm leading-relaxed text-zinc-600">
+            Snapshots from our offline university workshops, campus seminars, and live computer lab sessions across India.
           </p>
         </div>
 
-        {/* Gallery Grid */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Immersive Photo Grid */}
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {galleryItems.map((item) => (
             <div
               key={item.id}
               onClick={() => setActivePhoto(item)}
-              className="group cursor-pointer overflow-hidden rounded-lg border border-zinc-200 bg-white transition hover:border-zinc-300"
+              className="group relative aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100">
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-103"
-                />
+              <Image
+                src={item.src}
+                alt={item.title}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+
+              {/* Rich dark gradient overlay like JourneyHero */}
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent transition-opacity duration-300"
+              />
+
+              {/* Top Location Pill & Expand Icon */}
+              <div className="absolute inset-x-4 top-4 flex items-center justify-between">
+                <span className="inline-flex items-center gap-1 rounded-full bg-black/50 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
+                  <MapPin className="h-3 w-3 text-[#a8d5b5]" />
+                  {item.tag}
+                </span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
+                  <Expand className="h-3.5 w-3.5" />
+                </span>
               </div>
 
-              <div className="p-4">
-                <h4 className="text-xs font-semibold text-zinc-900 leading-snug">
+              {/* Bottom Caption */}
+              <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                <h4 className="text-base font-bold leading-snug text-white">
                   {item.title}
                 </h4>
-                <p className="mt-1.5 text-[11px] text-zinc-600 leading-relaxed line-clamp-2">
+                <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-white/80">
                   {item.description}
                 </p>
               </div>
@@ -106,25 +131,25 @@ export default function GallerySection() {
         </div>
       </div>
 
-      {/* Clean Lightbox */}
+      {/* Lightbox Modal */}
       {activePhoto && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-fade-in"
           onClick={() => setActivePhoto(null)}
         >
           <div
-            className="relative max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-lg bg-white shadow-2xl"
+            className="relative max-h-[90vh] w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setActivePhoto(null)}
-              className="absolute top-3 right-3 z-10 rounded-full bg-black/60 p-1.5 text-white hover:bg-black"
+              className="absolute top-4 right-4 z-10 rounded-full bg-black/60 p-2 text-white transition hover:bg-black"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
             </button>
 
-            <div className="relative aspect-[16/10] w-full bg-zinc-900">
+            <div className="relative aspect-[16/10] w-full bg-zinc-950">
               <Image
                 src={activePhoto.src}
                 alt={activePhoto.title}
@@ -134,9 +159,12 @@ export default function GallerySection() {
               />
             </div>
 
-            <div className="p-5">
-              <h3 className="text-sm font-bold text-zinc-900">{activePhoto.title}</h3>
-              <p className="mt-1 text-xs text-zinc-600 leading-relaxed">
+            <div className="p-6">
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#2d4a35]/10 px-2.5 py-0.5 text-xs font-semibold text-[#2d4a35]">
+                {activePhoto.tag}
+              </span>
+              <h3 className="mt-2 text-lg font-bold text-zinc-900">{activePhoto.title}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-zinc-600">
                 {activePhoto.description}
               </p>
             </div>
