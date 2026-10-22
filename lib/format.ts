@@ -68,3 +68,27 @@ export function initials(name: string | null | undefined, email?: string) {
     .map((part) => part[0]?.toUpperCase())
     .join("");
 }
+/** Maps any course (dummy or live Supabase DB row) to its banner illustration in /public/courses/ */
+export function getCourseImage(course: { id?: string; slug?: string; title: string; software?: string }): string {
+  const key = `${course.id ?? ""} ${course.slug ?? ""} ${course.title}`.toLowerCase();
+
+  if (key.includes("nsso") || key.includes("plfs") || key.includes("unit-level") || key.includes("survey")) {
+    return "/courses/nsso-data.png";
+  }
+  if (key.includes("time series") || key.includes("time-series") || key.includes("forecasting") || key.includes("arima")) {
+    return "/courses/time-series-r.png";
+  }
+  if (key.includes("panel") || key.includes("advanced econometric")) {
+    return "/courses/panel-data.png";
+  }
+  if (key.includes("introduction") || key.includes("statistical analysis") || key.includes("scholar")) {
+    return "/courses/intro-stats.png";
+  }
+  if (key.includes("microeconometrics") || key.includes("causal") || key.includes("applied") || key.includes("r")) {
+    return "/courses/microeconometrics-r.png";
+  }
+  if (key.includes("basic econometric") || course.software?.toUpperCase() === "STATA") {
+    return "/courses/econometrics-stata.png";
+  }
+  return "/courses/econometrics-stata.png";
+}
